@@ -1,4 +1,13 @@
 import themes from './themes';
+import { generateTeam } from './generators';
+import Bowman from './Bowman';
+import Swordsman from './Swordsman';
+import Vampire from './Vampire';
+import Undead from './Undead';
+import Magician from './Magician';
+import Daemon from './Daemon';
+// import GamePlay from './GamePlay';
+import Team from './Team';
 
 export default class GameController {
   constructor(gamePlay, stateService) {
@@ -11,6 +20,7 @@ export default class GameController {
     // TODO: load saved stated from stateService
     this.gamePlay.drawUi(themes.prairie);
     this.setTwoDimensionalBoard();
+    this.gamePlay.redrawPositions(this.setTeam([Bowman, Swordsman], [Vampire, Undead]));
     console.log(this);
   }
 
@@ -36,5 +46,10 @@ export default class GameController {
         this.gamePlay.coords.push(cell);
       }
     }
+  }
+
+  setTeam(userChars, aiChars) {
+    this.gamePlay.team = new Team(generateTeam(userChars, 1, 2), generateTeam(aiChars, 1, 2));
+    return this.gamePlay.team.characters;
   }
 }
